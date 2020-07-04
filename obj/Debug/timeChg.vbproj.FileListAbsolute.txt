@@ -1,0 +1,11 @@
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.frmTimeChg.resources
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.Resources.resources
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.vbproj.GenerateResource.cache
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.vbproj.CoreCompileInputs.cache
+C:\Users\Owner\source\repos\timeChg\bin\Debug\timeChg.exe.config
+C:\Users\Owner\source\repos\timeChg\bin\Debug\timeChg.exe
+C:\Users\Owner\source\repos\timeChg\bin\Debug\timeChg.pdb
+C:\Users\Owner\source\repos\timeChg\bin\Debug\timeChg.xml
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.exe
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.xml
+C:\Users\Owner\source\repos\timeChg\obj\Debug\timeChg.pdb
