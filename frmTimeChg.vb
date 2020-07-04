@@ -3,43 +3,22 @@
 Public Class frmTimeChg
     Private Const DATEFMT As String = "yyyy/MM/dd hh:mm:ss"
     Dim oldstate As CheckState
-    Private Sub frmTimeChg_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub frmTimeChg_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.AllowDrop = True
         oldstate = CheckBox3.CheckState
         DataGridView1.AllowDrop = True
-        Dim fileName() As String = Environment.GetCommandLineArgs
-        For i As Integer = 1 To fileName.Length - 1
-            If System.IO.File.Exists(fileName(i)) Then
-                If Not CheckExist(fileName(i)) Then
-                    Dim s() As String = {True, System.IO.Path.GetDirectoryName(fileName(i)), System.IO.Path.GetFileName(fileName(i)),
-                        System.IO.File.GetCreationTime(fileName(i)).ToString(DATEFMT), System.IO.File.GetLastWriteTime(fileName(i)).ToString(DATEFMT),
-                        System.IO.File.GetCreationTime(fileName(i)).ToString(DATEFMT), System.IO.File.GetLastWriteTime(fileName(i)).ToString(DATEFMT)}
-                    DataGridView1.Rows.Add(s)
-                End If
-            End If
-        Next
-        CheckMark()
+        Dim fileNames() As String = Environment.GetCommandLineArgs
+        addList(fileNames)
     End Sub
 
-    Private Sub frmTimeChg_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
+    Private Sub frmTimeChg_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
         'ドロップされたすべてのファイル名を取得する
-        Dim fileName As String() = CType(e.Data.GetData(DataFormats.FileDrop, False), String())
-        If fileName.Length >= 1 Then
-            For i As Integer = 0 To fileName.Length - 1
-                If System.IO.File.Exists(fileName(i)) Then
-                    If Not CheckExist(fileName(i)) Then
-                        Dim s() As String = {True, System.IO.Path.GetDirectoryName(fileName(i)), System.IO.Path.GetFileName(fileName(i)),
-                            System.IO.File.GetCreationTime(fileName(i)).ToString(DATEFMT), System.IO.File.GetLastWriteTime(fileName(i)).ToString(DATEFMT),
-                            System.IO.File.GetCreationTime(fileName(i)).ToString(DATEFMT), System.IO.File.GetLastWriteTime(fileName(i)).ToString(DATEFMT)}
-                        DataGridView1.Rows.Add(s)
-                    End If
-                End If
-            Next
-        End If
-        CheckMark()
+        Dim strMsg As String = ""
+        Dim fileNames As String() = CType(e.Data.GetData(DataFormats.FileDrop, False), String())
+        addList(fileNames)
     End Sub
 
-    Private Sub obj_DragEnter(sender As Object, e As DragEventArgs) Handles Me.DragEnter, DataGridView1.DragEnter
+    Private Sub obj_DragEnter(sender As Object, e As DragEventArgs) Handles MyBase.DragEnter, DataGridView1.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.Copy
         Else
@@ -50,23 +29,43 @@ Public Class frmTimeChg
 
     Private Sub DataGridView1_DragDrop(sender As Object, e As DragEventArgs) Handles DataGridView1.DragDrop
         'ドロップされたすべてのファイル名を取得する
-        Dim fileName As String() = CType(e.Data.GetData(DataFormats.FileDrop, False), String())
-        If fileName.Length >= 1 Then
-            For i As Integer = 0 To fileName.Length - 1
-                If System.IO.File.Exists(fileName(i)) Then
-                    If Not CheckExist(fileName(i)) Then
-                        Dim s() As String = {True, System.IO.Path.GetDirectoryName(fileName(i)), System.IO.Path.GetFileName(fileName(i)),
-                        System.IO.File.GetCreationTime(fileName(i)).ToString(DATEFMT), System.IO.File.GetLastWriteTime(fileName(i)).ToString(DATEFMT),
-                        System.IO.File.GetCreationTime(fileName(i)).ToString(DATEFMT), System.IO.File.GetLastWriteTime(fileName(i)).ToString(DATEFMT)}
+        Dim fileNames As String() = CType(e.Data.GetData(DataFormats.FileDrop, False), String())
+        addList(fileNames)
+    End Sub
+
+    Private Function addList(ByVal filenames() As String) As Boolean
+        Dim strMsg As String = ""
+        Dim intCnt As Integer = 0
+        If filenames.Length >= 1 Then
+            For i As Integer = 0 To filenames.Length - 1
+                Dim filename As String = filenames(i)
+                If System.IO.File.Exists(filename) Then
+                    If Not CheckExist(filename) Then
+                        Dim strCreateDate As String = System.IO.File.GetCreationTime(filename).ToString(DATEFMT)
+                        Dim strModefyDate As String = System.IO.File.GetLastWriteTime(filename).ToString(DATEFMT)
+                        Dim s() As String = {True, System.IO.Path.GetDirectoryName(filename), System.IO.Path.GetFileName(filename),
+                        strCreateDate, strModefyDate,
+                        strCreateDate, strModefyDate} '復元用
                         DataGridView1.Rows.Add(s)
+                    Else
+                        intCnt += 1
+                        If intCnt < 10 Then
+                            strMsg &= (vbCrLf & filename)
+                        ElseIf intCnt = 10 Then
+                            strMsg &= (vbCrLf & "他")
+                        End If
                     End If
-                End If
+                    End If
             Next
         End If
         CheckMark()
-    End Sub
+        If strMsg.Length > 0 Then
+            MsgBox("以下のファイルは重複しています。" & strMsg, MsgBoxStyle.Exclamation, Me.Text)
+        End If
+        Return True
+    End Function
 
-    Private Function CheckExist(fileName As String) As Boolean
+    Private Function CheckExist(ByVal fileName As String) As Boolean
         Dim strPath As String = System.IO.Path.GetDirectoryName(fileName)
         Dim strFile As String = System.IO.Path.GetFileName(fileName)
         For i As Integer = 0 To DataGridView1.Rows.Count - 1
@@ -79,7 +78,7 @@ Public Class frmTimeChg
 
 
     Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
-        If DataGridView1.CurrentRow.Index >= 0 Then
+        If Not IsNothing(DataGridView1.CurrentRow) AndAlso DataGridView1.CurrentRow.Index > 0 Then
             LabelCDate.Text = DataGridView1.Item(5, DataGridView1.CurrentRow.Index).Value.ToString
             LabelMDate.Text = DataGridView1.Item(6, DataGridView1.CurrentRow.Index).Value.ToString
             TextBoxCDate.Text = DataGridView1.Item(3, DataGridView1.CurrentRow.Index).Value.ToString
@@ -235,5 +234,15 @@ Public Class frmTimeChg
 
     End Sub
 
+    Private Sub DataGridView1_KeyPress(sender As Object, e As KeyPressEventArgs)
 
+    End Sub
+
+    Private Sub DataGridView1_KeyDown(sender As Object, e As KeyEventArgs) Handles DataGridView1.KeyDown
+        If e.KeyCode = Keys.Delete Then
+            If DataGridView1.SelectedRows.Count >= 1 Then
+                DataGridView1.Rows.Remove(DataGridView1.SelectedRows(0))
+            End If
+        End If
+    End Sub
 End Class

@@ -23,6 +23,13 @@ Partial Class frmTimeChg
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.ColumnCheck = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.ColumPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColumFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColumnCDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColumnMDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.hideCreateDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.hideModefyDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.TextBoxCDate = New System.Windows.Forms.TextBox()
@@ -32,13 +39,6 @@ Partial Class frmTimeChg
         Me.ButtonExec = New System.Windows.Forms.Button()
         Me.BtnRedo = New System.Windows.Forms.Button()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.ColumnCheck = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.ColumPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColumFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColumnCDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColumnMDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.hideCreateDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.hideModefyDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -67,6 +67,53 @@ Partial Class frmTimeChg
         Me.DataGridView1.Size = New System.Drawing.Size(743, 358)
         Me.DataGridView1.TabIndex = 0
         Me.DataGridView1.TabStop = False
+        '
+        'ColumnCheck
+        '
+        Me.ColumnCheck.FalseValue = "False"
+        Me.ColumnCheck.HeaderText = ""
+        Me.ColumnCheck.Name = "ColumnCheck"
+        Me.ColumnCheck.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.ColumnCheck.TrueValue = "True"
+        Me.ColumnCheck.Width = 40
+        '
+        'ColumPath
+        '
+        Me.ColumPath.HeaderText = "パス名"
+        Me.ColumPath.Name = "ColumPath"
+        Me.ColumPath.Width = 250
+        '
+        'ColumFile
+        '
+        Me.ColumFile.HeaderText = "ファイル名"
+        Me.ColumFile.Name = "ColumFile"
+        Me.ColumFile.Width = 150
+        '
+        'ColumnCDate
+        '
+        Me.ColumnCDate.HeaderText = "作成日"
+        Me.ColumnCDate.Name = "ColumnCDate"
+        Me.ColumnCDate.Width = 150
+        '
+        'ColumnMDate
+        '
+        Me.ColumnMDate.HeaderText = "更新日"
+        Me.ColumnMDate.Name = "ColumnMDate"
+        Me.ColumnMDate.Width = 150
+        '
+        'hideCreateDate
+        '
+        Me.hideCreateDate.HeaderText = "隠し作成日"
+        Me.hideCreateDate.Name = "hideCreateDate"
+        Me.hideCreateDate.Visible = False
+        Me.hideCreateDate.Width = 5
+        '
+        'hideModefyDate
+        '
+        Me.hideModefyDate.HeaderText = "隠し更新日"
+        Me.hideModefyDate.Name = "hideModefyDate"
+        Me.hideModefyDate.Visible = False
+        Me.hideModefyDate.Width = 5
         '
         'CheckBox1
         '
@@ -161,53 +208,6 @@ Partial Class frmTimeChg
         Me.CheckBox3.TabIndex = 9
         Me.CheckBox3.ThreeState = True
         Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'ColumnCheck
-        '
-        Me.ColumnCheck.FalseValue = "False"
-        Me.ColumnCheck.HeaderText = ""
-        Me.ColumnCheck.Name = "ColumnCheck"
-        Me.ColumnCheck.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.ColumnCheck.TrueValue = "True"
-        Me.ColumnCheck.Width = 40
-        '
-        'ColumPath
-        '
-        Me.ColumPath.HeaderText = "パス名"
-        Me.ColumPath.Name = "ColumPath"
-        Me.ColumPath.Width = 250
-        '
-        'ColumFile
-        '
-        Me.ColumFile.HeaderText = "ファイル名"
-        Me.ColumFile.Name = "ColumFile"
-        Me.ColumFile.Width = 150
-        '
-        'ColumnCDate
-        '
-        Me.ColumnCDate.HeaderText = "作成日"
-        Me.ColumnCDate.Name = "ColumnCDate"
-        Me.ColumnCDate.Width = 150
-        '
-        'ColumnMDate
-        '
-        Me.ColumnMDate.HeaderText = "更新日"
-        Me.ColumnMDate.Name = "ColumnMDate"
-        Me.ColumnMDate.Width = 150
-        '
-        'hideCreateDate
-        '
-        Me.hideCreateDate.HeaderText = "隠し作成日"
-        Me.hideCreateDate.Name = "hideCreateDate"
-        Me.hideCreateDate.Visible = False
-        Me.hideCreateDate.Width = 5
-        '
-        'hideModefyDate
-        '
-        Me.hideModefyDate.HeaderText = "隠し更新日"
-        Me.hideModefyDate.Name = "hideModefyDate"
-        Me.hideModefyDate.Visible = False
-        Me.hideModefyDate.Width = 5
         '
         'frmTimeChg
         '
