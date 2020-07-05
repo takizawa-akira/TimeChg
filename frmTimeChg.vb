@@ -245,4 +245,23 @@ Public Class frmTimeChg
             End If
         End If
     End Sub
+
+    Private Sub DataGridView1_MouseDown(sender As Object, e As MouseEventArgs) Handles DataGridView1.MouseDown
+        '右クリックなら削除メニューを表示
+        If DataGridView1.SelectedRows.Count >= 1 AndAlso e.Button = MouseButtons.Right Then
+            ContextMenus.Show()
+            ContextMenus.Top = Me.Top + DataGridView1.Top + e.Location.Y + 20
+            ContextMenus.Left = Me.Left + DataGridView1.Left + e.Location.X
+        End If
+    End Sub
+
+    '右クリックメニューの選択
+    Private Sub ContextMenus_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ContextMenus.ItemClicked
+        If e.ClickedItem Is ContextMenus.Items(0) Then
+            ' 選択されている行をデータグリッドからすべて削除
+            For Each row As DataGridViewRow In Me.DataGridView1.SelectedRows
+                Me.DataGridView1.Rows.Remove(row)
+            Next
+        End If
+    End Sub
 End Class

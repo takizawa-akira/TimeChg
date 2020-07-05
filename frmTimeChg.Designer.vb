@@ -22,6 +22,7 @@ Partial Class frmTimeChg
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.ColumnCheck = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.ColumPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -39,7 +40,10 @@ Partial Class frmTimeChg
         Me.ButtonExec = New System.Windows.Forms.Button()
         Me.BtnRedo = New System.Windows.Forms.Button()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.ContextMenus = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuDel = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenus.SuspendLayout()
         Me.SuspendLayout()
         '
         'DataGridView1
@@ -209,6 +213,19 @@ Partial Class frmTimeChg
         Me.CheckBox3.ThreeState = True
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
+        'ContextMenus
+        '
+        Me.ContextMenus.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuDel})
+        Me.ContextMenus.Name = "ContextMenus"
+        Me.ContextMenus.Size = New System.Drawing.Size(181, 48)
+        Me.ContextMenus.Text = "削除"
+        '
+        'ToolStripMenuDel
+        '
+        Me.ToolStripMenuDel.Name = "ToolStripMenuDel"
+        Me.ToolStripMenuDel.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuDel.Text = "削除"
+        '
         'frmTimeChg
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -227,6 +244,7 @@ Partial Class frmTimeChg
         Me.Name = "frmTimeChg"
         Me.Text = "TimeChg"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenus.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -249,4 +267,6 @@ Partial Class frmTimeChg
     Friend WithEvents ColumnMDate As DataGridViewTextBoxColumn
     Friend WithEvents hideCreateDate As DataGridViewTextBoxColumn
     Friend WithEvents hideModefyDate As DataGridViewTextBoxColumn
+    Friend WithEvents ContextMenus As ContextMenuStrip
+    Friend WithEvents ToolStripMenuDel As ToolStripMenuItem
 End Class
