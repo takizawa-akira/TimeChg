@@ -2,10 +2,13 @@
 Imports System.IO.File
 Imports System.IO.Path
 Imports System.Xml.Schema
+Imports Microsoft.VisualBasic.Compatibility
 
 Public Class frmTimeChg
     Private Const DATEFMT As String = "yyyy/MM/dd hh:mm:ss"
-    Dim oldstate As CheckState
+    Private Const DATEFMTJ As String = "gggee年"
+    Private oldstate As CheckState
+    Private toolTip1 As ToolTip = New ToolTip()
     Private Sub frmTimeChg_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.AllowDrop = True
         oldstate = CheckBox3.CheckState
@@ -19,6 +22,10 @@ Public Class frmTimeChg
             Next
             addList(filenames)
         End If
+        toolTip1.AutoPopDelay = 3000
+        toolTip1.InitialDelay = 1000
+        toolTip1.ReshowDelay = 500
+        toolTip1.ShowAlways = True
     End Sub
 
     Private Sub frmTimeChg_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
@@ -190,10 +197,6 @@ Public Class frmTimeChg
         End If
     End Sub
 
-    Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
-    End Sub
-    Private Sub CheckBox3_CheckStateChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckStateChanged
-    End Sub
     Private Sub CheckBox3_Click(sender As Object, e As EventArgs) Handles CheckBox3.Click
         If CheckBox3.CheckState = CheckState.Checked Then
             CheckBox3.CheckState = CheckState.Unchecked
@@ -227,8 +230,6 @@ Public Class frmTimeChg
         Return iRet
     End Function
 
-    Private Sub DataGridView1_CurrentCellChanged(sender As Object, e As EventArgs) Handles DataGridView1.CurrentCellChanged
-    End Sub
 
     Private Sub DataGridView1_CurrentCellDirtyStateChanged(sender As Object, e As EventArgs) Handles DataGridView1.CurrentCellDirtyStateChanged
         If DataGridView1.CurrentCellAddress.X = 0 AndAlso DataGridView1.IsCurrentCellDirty Then
@@ -237,27 +238,15 @@ Public Class frmTimeChg
         End If
     End Sub
 
-    Private Sub DataGridView1_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
-        '列のインデックスを確認する
-        If e.ColumnIndex = 0 And e.RowIndex >= 0 Then
-            'CheckMark()
-        End If
-
-    End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        If e.ColumnIndex = 0 And e.RowIndex >= 0 Then
-            DataGridView1.Item(e.ColumnIndex, e.RowIndex).Value = If(DataGridView1.Item(e.ColumnIndex, e.RowIndex).Value = True, False, True)
-            CheckMark()
+        If e.RowIndex >= 0 Then
+            If e.ColumnIndex = 0 Then
+                DataGridView1.Item(e.ColumnIndex, e.RowIndex).Value = If(DataGridView1.Item(e.ColumnIndex, e.RowIndex).Value = True, False, True)
+                CheckMark()
+            End If
+            DataGridView1_SelectionChanged(sender, e)
         End If
-    End Sub
-
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
-
-    End Sub
-
-    Private Sub DataGridView1_KeyPress(sender As Object, e As KeyPressEventArgs)
-
     End Sub
 
     Private Sub DataGridView1_KeyDown(sender As Object, e As KeyEventArgs) Handles DataGridView1.KeyDown
@@ -285,6 +274,40 @@ Public Class frmTimeChg
                 Me.DataGridView1.Rows.Remove(row)
             Next
             CheckMark()
+        End If
+    End Sub
+
+    Private Sub LabelCDate_TextChanged(sender As Object, e As EventArgs) Handles LabelCDate.TextChanged
+        toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+    End Sub
+
+    Private Sub LabelMDate_TextChanged(sender As Object, e As EventArgs) Handles LabelMDate.TextChanged
+        toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+    End Sub
+
+    Private Sub TextBoxCDate_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCDate.TextChanged
+        If IsDate(sender.Text) Then
+            toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+        Else
+            toolTip1.SetToolTip(sender, Nothing) 'hide効かねーでやんの
+        End If
+    End Sub
+
+    Private Sub TextBoxMDate_TextChanged(sender As Object, e As EventArgs) Handles TextBoxMDate.TextChanged
+        If IsDate(sender.Text) Then
+            toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+        Else
+            toolTip1.SetToolTip(sender, Nothing)
+        End If
+    End Sub
+
+    Private Sub DataGridView1_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellMouseEnter
+        If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
+        Dim s As String = DataGridView1.Item(e.ColumnIndex, e.RowIndex).Value
+        If e.ColumnIndex > 2 And IsDate(s) Then
+            toolTip1.SetToolTip(sender, VB6.Format(CDate(s), DATEFMTJ))
+        Else
+            toolTip1.SetToolTip(sender, Nothing)
         End If
     End Sub
 End Class

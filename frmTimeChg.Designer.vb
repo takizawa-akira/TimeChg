@@ -217,13 +217,13 @@ Partial Class frmTimeChg
         '
         Me.ContextMenus.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuDel})
         Me.ContextMenus.Name = "ContextMenus"
-        Me.ContextMenus.Size = New System.Drawing.Size(181, 48)
+        Me.ContextMenus.Size = New System.Drawing.Size(101, 26)
         Me.ContextMenus.Text = "削除"
         '
         'ToolStripMenuDel
         '
         Me.ToolStripMenuDel.Name = "ToolStripMenuDel"
-        Me.ToolStripMenuDel.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuDel.Size = New System.Drawing.Size(100, 22)
         Me.ToolStripMenuDel.Text = "削除"
         '
         'frmTimeChg
