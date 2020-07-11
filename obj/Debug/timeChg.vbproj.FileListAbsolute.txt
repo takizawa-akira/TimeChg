@@ -13,7 +13,6 @@ C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\bin\Debug\timeChg.exe.config
 C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\bin\Debug\timeChg.exe
 C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\bin\Debug\timeChg.pdb
 C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\bin\Debug\timeChg.xml
-C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\obj\Debug\timeChg.vbprojAssemblyReference.cache
 C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\obj\Debug\timeChg.frmTimeChg.resources
 C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\obj\Debug\timeChg.Resources.resources
 C:\Users\Owner\Source\Repos\takizawa-akira\TimeChg\obj\Debug\timeChg.vbproj.GenerateResource.cache

@@ -1,4 +1,7 @@
 ﻿Imports System.Runtime.Remoting.Metadata.W3cXsd2001
+Imports System.IO.File
+Imports System.IO.Path
+Imports System.Xml.Schema
 
 Public Class frmTimeChg
     Private Const DATEFMT As String = "yyyy/MM/dd hh:mm:ss"
@@ -7,8 +10,15 @@ Public Class frmTimeChg
         Me.AllowDrop = True
         oldstate = CheckBox3.CheckState
         DataGridView1.AllowDrop = True
-        Dim fileNames() As String = Environment.GetCommandLineArgs
-        addList(fileNames)
+        Dim args() As String = Environment.GetCommandLineArgs
+        If args.Length > 1 Then
+            Dim filenames(args.Length - 2) As String
+            'Array.Copy(args, 1, filenames, 0, filenames.Length - 1) 配列の部分コピーできねー
+            For i = 1 To args.Length - 1
+                filenames(i - 1) = args(i)
+            Next
+            addList(filenames)
+        End If
     End Sub
 
     Private Sub frmTimeChg_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
@@ -41,9 +51,9 @@ Public Class frmTimeChg
                 Dim filename As String = filenames(i)
                 If System.IO.File.Exists(filename) Then
                     If Not CheckExist(filename) Then
-                        Dim strCreateDate As String = System.IO.File.GetCreationTime(filename).ToString(DATEFMT)
-                        Dim strModefyDate As String = System.IO.File.GetLastWriteTime(filename).ToString(DATEFMT)
-                        Dim s() As String = {True, System.IO.Path.GetDirectoryName(filename), System.IO.Path.GetFileName(filename),
+                        Dim strCreateDate As String = GetCreationTime(filename).ToString(DATEFMT)
+                        Dim strModefyDate As String = GetLastWriteTime(filename).ToString(DATEFMT)
+                        Dim s() As String = {True, GetDirectoryName(filename), GetFileName(filename),
                         strCreateDate, strModefyDate,
                         strCreateDate, strModefyDate} '復元用
                         DataGridView1.Rows.Add(s)
@@ -78,12 +88,14 @@ Public Class frmTimeChg
 
 
     Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
-        If Not IsNothing(DataGridView1.CurrentRow) AndAlso DataGridView1.CurrentRow.Index > 0 Then
-            LabelCDate.Text = DataGridView1.Item(5, DataGridView1.CurrentRow.Index).Value.ToString
-            LabelMDate.Text = DataGridView1.Item(6, DataGridView1.CurrentRow.Index).Value.ToString
-            TextBoxCDate.Text = DataGridView1.Item(3, DataGridView1.CurrentRow.Index).Value.ToString
-            TextBoxMDate.Text = DataGridView1.Item(4, DataGridView1.CurrentRow.Index).Value.ToString
-        End If
+        With DataGridView1
+            If Not IsNothing(.CurrentRow) AndAlso .CurrentRow.Index >= 0 Then
+                LabelCDate.Text = .Item(5, .CurrentRow.Index).Value.ToString
+                LabelMDate.Text = .Item(6, .CurrentRow.Index).Value.ToString
+                TextBoxCDate.Text = .Item(3, .CurrentRow.Index).Value.ToString
+                TextBoxMDate.Text = .Item(4, .CurrentRow.Index).Value.ToString
+            End If
+        End With
     End Sub
 
     Private Sub ButtonExec_Click(sender As Object, e As EventArgs) Handles ButtonExec.Click
@@ -96,13 +108,23 @@ Public Class frmTimeChg
                     If DataGridView1.Item(0, i).Value = True Then
                         Dim filename As String = DataGridView1.Item(1, i).Value & "\" & DataGridView1.Item(2, i).Value
                         If CheckBox1.Checked Then
-                            System.IO.File.SetCreationTime(filename, newdate)
-                            DataGridView1.Item(3, i).Value = newdate.ToString(DATEFMT)
+                            Try
+                                System.IO.File.SetCreationTime(filename, newdate)
+                                DataGridView1.Item(3, i).Value = newdate.ToString(DATEFMT)
+                            Catch ex As Exception
+                                MsgBox("変更に失敗しました。" & vbCrLf & filename, MsgBoxStyle.Critical, Me.Text)
+                                Exit Sub
+                            End Try
                             flg = True
                         End If
                         If CheckBox2.Checked Then
-                            System.IO.File.SetLastWriteTime(filename, moddate)
-                            DataGridView1.Item(4, i).Value = moddate.ToString(DATEFMT)
+                            Try
+                                System.IO.File.SetLastWriteTime(filename, moddate)
+                                DataGridView1.Item(4, i).Value = moddate.ToString(DATEFMT)
+                            Catch ex As Exception
+                                MsgBox("変更に失敗しました。" & vbCrLf & filename, MsgBoxStyle.Critical, Me.Text)
+                                Exit Sub
+                            End Try
                             flg = True
                         End If
                     End If
@@ -262,6 +284,7 @@ Public Class frmTimeChg
             For Each row As DataGridViewRow In Me.DataGridView1.SelectedRows
                 Me.DataGridView1.Rows.Remove(row)
             Next
+            CheckMark()
         End If
     End Sub
 End Class
