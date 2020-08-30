@@ -10,3 +10,15 @@ C:\Users\Owner\source\repos\timeChg\obj\Release\timeChg.exe
 C:\Users\Owner\source\repos\timeChg\obj\Release\timeChg.xml
 C:\Users\Owner\source\repos\timeChg\obj\Release\timeChg.pdb
 C:\Users\Owner\source\repos\TimeChg\obj\Release\timeChg.vbprojAssemblyReference.cache
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\bin\Release\timeChg.exe.config
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\bin\Release\timeChg.exe
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\bin\Release\timeChg.pdb
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\bin\Release\timeChg.xml
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.vbprojAssemblyReference.cache
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.frmTimeChg.resources
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.Resources.resources
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.vbproj.GenerateResource.cache
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.vbproj.CoreCompileInputs.cache
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.exe
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.xml
+C:\Users\Owner\source\repos\takizawa-akira\TimeChg\obj\Release\timeChg.pdb

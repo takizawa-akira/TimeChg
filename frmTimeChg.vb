@@ -1,15 +1,24 @@
 ﻿Imports System.Runtime.Remoting.Metadata.W3cXsd2001
 Imports System.IO.File
 Imports System.IO.Path
+Imports System.Globalization
 Imports System.Xml.Schema
 Imports Microsoft.VisualBasic.Compatibility
+Imports System.ComponentModel
 
 Public Class frmTimeChg
+#Disable Warning CA1031, CA1305 ' 一般的な例外の種類はキャッチしません
     Private Const DATEFMT As String = "yyyy/MM/dd hh:mm:ss"
-    Private Const DATEFMTJ As String = "gggee年"
+    Private Const DATEFMTJ As String = "gyy年"
     Private oldstate As CheckState
     Private toolTip1 As ToolTip = New ToolTip()
+    ' カルチャの「言語-国/地域」を「日本語-日本」に設定
+    Dim ci As New CultureInfo("ja-JP")
+    ' 和暦を表すクラス
+    Dim jp As New JapaneseCalendar
     Private Sub frmTimeChg_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' 現在のカルチャで使用する暦を、和暦に設定
+        ci.DateTimeFormat.Calendar = jp
         Me.AllowDrop = True
         oldstate = CheckBox3.CheckState
         DataGridView1.AllowDrop = True
@@ -72,7 +81,7 @@ Public Class frmTimeChg
                             strMsg &= (vbCrLf & "他")
                         End If
                     End If
-                    End If
+                End If
             Next
         End If
         CheckMark()
@@ -278,16 +287,16 @@ Public Class frmTimeChg
     End Sub
 
     Private Sub LabelCDate_TextChanged(sender As Object, e As EventArgs) Handles LabelCDate.TextChanged
-        toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+        toolTip1.SetToolTip(sender, CDate(sender.Text).ToString(DATEFMTJ, ci))
     End Sub
 
     Private Sub LabelMDate_TextChanged(sender As Object, e As EventArgs) Handles LabelMDate.TextChanged
-        toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+        toolTip1.SetToolTip(sender, CDate(sender.Text).ToString(DATEFMTJ, ci))
     End Sub
 
     Private Sub TextBoxCDate_TextChanged(sender As Object, e As EventArgs) Handles TextBoxCDate.TextChanged
         If IsDate(sender.Text) Then
-            toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+            toolTip1.SetToolTip(sender, CDate(sender.Text).ToString(DATEFMTJ, ci))
         Else
             toolTip1.SetToolTip(sender, Nothing) 'hide効かねーでやんの
         End If
@@ -295,7 +304,7 @@ Public Class frmTimeChg
 
     Private Sub TextBoxMDate_TextChanged(sender As Object, e As EventArgs) Handles TextBoxMDate.TextChanged
         If IsDate(sender.Text) Then
-            toolTip1.SetToolTip(sender, VB6.Format(CDate(sender.Text), DATEFMTJ))
+            toolTip1.SetToolTip(sender, CDate(sender.Text).ToString(DATEFMTJ, ci))
         Else
             toolTip1.SetToolTip(sender, Nothing)
         End If
@@ -305,9 +314,13 @@ Public Class frmTimeChg
         If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
         Dim s As String = DataGridView1.Item(e.ColumnIndex, e.RowIndex).Value
         If e.ColumnIndex > 2 And IsDate(s) Then
-            toolTip1.SetToolTip(sender, VB6.Format(CDate(s), DATEFMTJ))
+            toolTip1.SetToolTip(sender, CDate(s).ToString(DATEFMTJ, ci))
         Else
             toolTip1.SetToolTip(sender, Nothing)
         End If
+    End Sub
+
+    Private Sub frmTimeChg_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        toolTip1.Dispose()
     End Sub
 End Class
